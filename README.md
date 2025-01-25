@@ -1,6 +1,7 @@
 ShoppingList
 
 Bevesárlólista alkalmazás
+
 Készítette: Bodnár Milán István, CA7KMM
 
 A program célja:
