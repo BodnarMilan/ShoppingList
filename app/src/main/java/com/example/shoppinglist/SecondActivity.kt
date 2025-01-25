@@ -11,22 +11,22 @@ import androidx.appcompat.app.AppCompatActivity
 class SecondActivity : AppCompatActivity() {
 
     private lateinit var bubbleId: String
-    private val BUBBLES_KEY = "sub_bubbles"  // Key to store sub-bubbles for this bubble
+    private val BUBBLES_KEY = "sub_bubbles"  // adott bubble-höz tartozó sub-bubble tárolási kulcsa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        // Get the bubble ID passed from MainActivity
+        // bubble ID megszerzése a MainActivity-ből
         bubbleId = intent.getStringExtra("BUBBLE_ID") ?: "default_bubble"
 
-        // Initialize the EditText input field here
+        // input mező inicializálása
         val editTextInput = findViewById<EditText>(R.id.editTextInput)
         val submitButton = findViewById<Button>(R.id.submitButton)
         val backButton = findViewById<Button>(R.id.backButton)
         val bubbleContainer = findViewById<LinearLayout>(R.id.bubbleContainer)
 
-        // Load saved sub-bubbles for the specific bubble
+        // adott bubble-höz tartozó sub-bubble-ök betölése
         loadBubbles(bubbleContainer, editTextInput)
 
         submitButton.setOnClickListener {
@@ -76,16 +76,16 @@ class SecondActivity : AppCompatActivity() {
 
                 bubbleContainer.addView(bubbleLayout)
 
-                // Save sub-bubbles
+                // sub-bubble mentése
                 saveBubbles(bubbleContainer)
 
-                // Clear input field
+                // input mező törlése
                 editTextInput.text.clear()
             }
         }
 
         backButton.setOnClickListener {
-            finish() // Close this activity and return to MainActivity
+            finish() // activity bezárása, és visszatérés
         }
     }
 
@@ -100,7 +100,7 @@ class SecondActivity : AppCompatActivity() {
             bubbleList.add(bubbleText)
         }
 
-        // Save as a comma-separated string
+        // vesszővel elválasztott szöveg mentése
         editor.putString(BUBBLES_KEY, bubbleList.joinToString(","))
         editor.apply()
     }

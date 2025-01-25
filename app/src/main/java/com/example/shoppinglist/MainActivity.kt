@@ -23,16 +23,16 @@ class MainActivity : AppCompatActivity() {
         bubbleContainer = findViewById(R.id.bubbleContainer)
         val submitButton = findViewById<Button>(R.id.submitButton)
 
-        // Load saved bubbles from SharedPreferences
+        // bubble betöltése a SharedPreferences-ből
         loadBubbles()
 
-        // Handle submit button click
+        // hozzáadás gomb kezelése
         submitButton.setOnClickListener {
             val userInput = editTextInput.text.toString()
             if (userInput.isNotBlank()) {
-                val bubbleId = userInput.replace(" ", "_") // Create a unique bubble ID based on input
+                val bubbleId = userInput.replace(" ", "_") // egyedi  bubble ID készítése input alapján
 
-                // Create a new bubble layout
+                // új bubble kiosztás
                 val bubbleLayout = LinearLayout(this).apply {
                     orientation = LinearLayout.HORIZONTAL
                     layoutParams = LinearLayout.LayoutParams(
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
 
-                // Create the text bubble
+                // text bubble létrehozása
                 val bubbleText = TextView(this).apply {
                     text = userInput
                     setBackgroundResource(R.drawable.text_bubble_background)
@@ -56,32 +56,32 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                // Create the edit button
+                // szerkesztés gomb létrehozása
                 val editButton = Button(this).apply {
                     text = "Szerkesztés"
                     setOnClickListener {
-                        editTextInput.setText(userInput) // Set the input to the text bubble value
-                        bubbleContainer.removeView(bubbleLayout) // Remove the old bubble
+                        editTextInput.setText(userInput) // input a következő text bubble értéke
+                        bubbleContainer.removeView(bubbleLayout) // régi bubble törlése
                     }
                 }
 
-                // Create the delete button
+                // törlés gomb létrehozása
                 val deleteButton = Button(this).apply {
                     text = "Törlés"
                     setOnClickListener {
-                        bubbleContainer.removeView(bubbleLayout) // Remove the bubble
-                        // Save the remaining bubbles
+                        bubbleContainer.removeView(bubbleLayout) // bubble törlése
+                        // megmaradt bubble-ök mentése
                         saveBubbles()
                     }
                 }
 
-                // Create the open button for each bubble
+                // megnyitás gomb készítése minden bubble-höz
                 val openButton = Button(this).apply {
                     text = "Megnyitás"
                     setOnClickListener {
-                        // Open the secondary screen with the unique bubble ID
+                        // másodlagos beviteli megjelenítő kezeleése a unique bubble ID segítségével
                         val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
-                            putExtra("BUBBLE_ID", bubbleId) // Pass the unique bubble ID
+                            putExtra("BUBBLE_ID", bubbleId)
                         }
                         startActivity(intent)
                     }
@@ -93,25 +93,25 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                // Add the text bubble, edit, delete, and open buttons to the layout
+                // a text bubble, szerkesztés, törlés, megnyitás gombok layout-hoz való adása
                 bubbleLayout.addView(bubbleText)
                 bubbleLayout.addView(editButton)
                 bubbleLayout.addView(deleteButton)
                 bubbleLayout.addView(openButton)
 
-                // Add the bubble layout to the container
+                // kiosztás container-hez adása
                 bubbleContainer.addView(bubbleLayout)
 
-                // Save the bubbles
+                // bubble-ök mentése
                 saveBubbles()
 
-                // Clear the input field
+                // input mező törlése
                 editTextInput.text.clear()
             }
         }
     }
 
-    // Function to save bubbles to SharedPreferences
+    // bubble mentése a SharedPreferences-be
     private fun saveBubbles() {
         val sharedPreferences = getSharedPreferences("main_bubbles", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -123,21 +123,21 @@ class MainActivity : AppCompatActivity() {
             bubbleList.add(bubbleText)
         }
 
-        // Save the bubbles list as a single string (separated by commas)
+        // bubble lista mentése egyszerű listaként (vesszővel tagolva)
         editor.putString(BUBBLES_KEY, bubbleList.joinToString(","))
         editor.apply()
     }
 
-    // Function to load bubbles from SharedPreferences
+    // bubble betöltése a SharedPreferences-ből
     private fun loadBubbles() {
         val sharedPreferences = getSharedPreferences("main_bubbles", Context.MODE_PRIVATE)
         val savedBubbles = sharedPreferences.getString(BUBBLES_KEY, "") ?: ""
 
-        // Split the saved bubbles string and create TextViews for each bubble
+        // mentett bubble szövegek tagolása és TextViews készítése minden bubble-höz
         if (savedBubbles.isNotEmpty()) {
             val bubbleList = savedBubbles.split(",")
             for (bubbleText in bubbleList) {
-                // Create a new bubble layout
+                // új bubble layout
                 val bubbleLayout = LinearLayout(this).apply {
                     orientation = LinearLayout.HORIZONTAL
                     layoutParams = LinearLayout.LayoutParams(
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
 
-                // Create the text bubble
+                // új text bubble
                 val textView = TextView(this).apply {
                     text = bubbleText
                     setBackgroundResource(R.drawable.text_bubble_background)
@@ -161,30 +161,30 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                // Create the edit button
+                // szerkesztés gomb
                 val editButton = Button(this).apply {
                     text = "Szerkesztés"
                     setOnClickListener {
-                        editTextInput.setText(bubbleText) // Set the input to the text bubble value
-                        bubbleContainer.removeView(bubbleLayout) // Remove the old bubble
+                        editTextInput.setText(bubbleText) // input a következő text bubble értéke
+                        bubbleContainer.removeView(bubbleLayout) // régi bubble törlése
                     }
                 }
 
-                // Create the delete button
+                // törlés gomb
                 val deleteButton = Button(this).apply {
                     text = "Törlés"
                     setOnClickListener {
-                        bubbleContainer.removeView(bubbleLayout) // Remove the bubble
-                        // Save the remaining bubbles
+                        bubbleContainer.removeView(bubbleLayout) // régi bubble törlése
+                        // megmaradt bubble mentése
                         saveBubbles()
                     }
                 }
 
-                // Create the open button for each bubble
+                // minden bubble megnyitás gombjának elkészítése
                 val openButton = Button(this).apply {
                     text = "Megnyitás"
                     setOnClickListener {
-                        // Open the secondary screen with the unique bubble ID
+                        // másodlagos beviteli megjelenítő kezeleése a unique bubble ID segítségével
                         val intent = Intent(this@MainActivity, SecondActivity::class.java).apply {
                             putExtra("BUBBLE_ID", bubbleText.replace(" ", "_")) // Pass the bubble ID
                         }
@@ -198,13 +198,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                // Add the text bubble, edit, delete, and open buttons to the layout
+                // a text bubble, szerkesztés, törlés, megnyitás gombok layout-hoz való adása
                 bubbleLayout.addView(textView)
                 bubbleLayout.addView(editButton)
                 bubbleLayout.addView(deleteButton)
                 bubbleLayout.addView(openButton)
 
-                // Add the bubble layout to the container
+                // bubble layout container-hez való adása
                 bubbleContainer.addView(bubbleLayout)
             }
         }
