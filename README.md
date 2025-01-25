@@ -1,6 +1,6 @@
 ShoppingList
 
-Bevesárló lista alkalmazás
+Bevesárlólista alkalmazás
 Készítette: Bodnár Milán István, CA7KMM
 
 A program célja:
@@ -10,4 +10,4 @@ Test video of ShoppingList:
 https://youtube.com/shorts/9A2j4Ybod5Q?feature=share
 
 Document link:
-TBD...
+https://github.com/BodnarMilan/ShoppingList/blob/master/ShoppingList.pdf
